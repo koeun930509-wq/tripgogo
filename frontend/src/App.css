@@ -500,6 +500,14 @@
     padding: 14px 16px;
   }
 
+  .weather-summary-icon {
+    display: none;
+  }
+
+  .weather-summary {
+    font-size: 15px;
+  }
+
   .daily-forecast {
     grid-template-columns: repeat(2, 1fr);
     row-gap: 24px;
