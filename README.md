@@ -22,10 +22,8 @@
 ## 프로젝트 구조
 
 ```
-api/
-  recommend.py            # Vercel Serverless Function 진입점 (backend/app.py의 Flask 앱을 그대로 재노출)
 backend/
-  app.py                  # Flask 엔드포인트 (POST /api/recommend)
+  app.py                  # Flask 엔드포인트 (POST /api/recommend) — Vercel에서 backend 서비스의 entrypoint
   pipeline.py             # 카카오맵 → Open-Meteo → Gemini → Places 파이프라인, 숙박일수에 따른 추천 개수 결정
   services/
     kakao_service.py      # 지역명 → 위도/경도
@@ -33,6 +31,7 @@ backend/
     gemini_service.py     # 날씨 + 지역 → 추천 생성 (JSON 스키마 강제, weather_desc/spot_reason 분리)
     places_service.py     # 장소명 → Google Places 대표 사진 URL
   requirements.txt
+  pyproject.toml           # Vercel Python 런타임용 프로젝트/의존성 정의
   .env.example
 frontend/
   src/
@@ -43,8 +42,7 @@ frontend/
       WeatherIcon.jsx       # 날씨 상태별 아이콘
       StatIcon.jsx          # 강수확률/풍속/습도/여행지수 아이콘
     App.css                 # 전체 스타일 (반응형 브레이크포인트 포함)
-requirements.txt           # api/recommend.py용 (Vercel Python 런타임이 여기서 의존성을 찾음)
-vercel.json                # 프론트엔드 빌드 설정
+vercel.json                # frontend/backend를 Vercel Services로 선언, /api/* → backend, 나머지 → frontend rewrite
 PRD.md
 CLAUDE.md
 ```
@@ -89,15 +87,15 @@ npm run dev   # http://localhost:5173 (포트 사용 중이면 자동으로 다�
 
 ## Vercel 배포
 
-이 저장소는 프론트엔드(정적 사이트)와 백엔드(Python Serverless Function, `api/recommend.py`)를 하나의 Vercel 프로젝트로 함께 배포하도록 구성되어 있습니다.
+이 저장소는 [Vercel Services](https://vercel.com/docs/services)로 프론트엔드(`frontend/`, 정적 사이트)와 백엔드(`backend/`, Flask 앱)를 하나의 Vercel 프로젝트에서 함께 배포하도록 구성되어 있습니다. `vercel.json`의 `services.frontend`/`services.backend`가 각 디렉토리의 빌드·entrypoint를 정의하고, `rewrites`가 `/api/*`는 backend로, 나머지 전부는 frontend(SPA)로 라우팅합니다.
 
-1. **Vercel 프로젝트 설정 → General → Root Directory**를 저장소 루트(비워두거나 `.`)로 설정하세요. `frontend`로 설정되어 있으면 루트의 `api/`, `vercel.json`이 배포 대상에서 빠져 백엔드 호출이 실패합니다.
+1. **Vercel 프로젝트 설정 → General → Root Directory**를 저장소 루트(비워두거나 `.`)로 설정하세요. `frontend`로 설정되어 있으면 루트의 `vercel.json`이 배포 대상에서 빠져 백엔드 호출이 실패합니다.
 2. **Settings → Environment Variables**에 아래 값을 등록하세요 (backend/.env와 동일한 값):
    - `KAKAO_REST_API_KEY`
    - `GEMINI_API_KEY`
    - `GEMINI_MODEL` (선택, 기본값 `gemini-2.5-flash`)
    - `GOOGLE_PLACES_API_KEY` (선택)
-3. 재배포하면 `vercel.json`의 `buildCommand`(`cd frontend && npm install && npm run build`)로 프론트엔드가 빌드되고, `api/recommend.py`가 `POST /api/recommend`로 자동 노출됩니다. 프론트엔드는 같은 도메인이므로 `VITE_API_BASE_URL`을 별도로 설정할 필요가 없습니다.
+3. 재배포하면 `frontend/`가 `npm install && npm run build`로 빌드되고, `backend/app.py`의 Flask 앱(`backend/pyproject.toml`에 의존성 정의)이 `POST /api/recommend`로 노출됩니다. 프론트엔드는 같은 도메인이므로 `VITE_API_BASE_URL`을 별도로 설정할 필요가 없습니다.
 
 참고: Vercel Hobby 플랜은 서버리스 함수 실행 시간에 제한이 있어(기본 10초), Gemini 응답이 느리면 타임아웃이 날 수 있습니다. 반복적으로 타임아웃이 발생하면 `vercel.json`에 `functions` 설정으로 `maxDuration`을 늘리거나 플랜을 확인하세요.
 
