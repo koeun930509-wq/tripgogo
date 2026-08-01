@@ -1,0 +1,138 @@
+import { useMemo, useState } from 'react'
+
+const POPULAR_REGIONS = ['서울', '부산', '제주도', '강릉', '전주', '경주', '여수', '속초']
+const MAX_FORECAST_DAYS = 16
+const MAX_TRIP_NIGHTS = 6
+
+function toDateInputValue(date) {
+  const y = date.getFullYear()
+  const m = String(date.getMonth() + 1).padStart(2, '0')
+  const d = String(date.getDate()).padStart(2, '0')
+  return `${y}-${m}-${d}`
+}
+
+function addDays(dateStr, days) {
+  const d = new Date(`${dateStr}T00:00:00`)
+  d.setDate(d.getDate() + days)
+  return toDateInputValue(d)
+}
+
+export default function SearchForm({ onSubmit, loading }) {
+  const [region, setRegion] = useState('')
+  const [startDate, setStartDate] = useState('')
+  const [nights, setNights] = useState(0)
+  const [showRegionList, setShowRegionList] = useState(false)
+
+  const { min, max } = useMemo(() => {
+    const today = new Date()
+    const maxDate = new Date(today)
+    maxDate.setDate(maxDate.getDate() + MAX_FORECAST_DAYS - 1)
+    return { min: toDateInputValue(today), max: toDateInputValue(maxDate) }
+  }, [])
+
+  const maxNights = useMemo(() => {
+    if (!startDate) return MAX_TRIP_NIGHTS
+    const daysLeft = Math.round((new Date(max) - new Date(startDate)) / 86400000)
+    return Math.max(0, Math.min(MAX_TRIP_NIGHTS, daysLeft))
+  }, [startDate, max])
+
+  const endDate = startDate ? addDays(startDate, nights) : ''
+
+  function handleSubmit(e) {
+    e.preventDefault()
+    if (!region.trim() || !startDate) return
+    onSubmit({ region: region.trim(), date: startDate, endDate })
+  }
+
+  return (
+    <form className="search-form" onSubmit={handleSubmit}>
+      <div className="field region-field">
+        <label htmlFor="region">가고 싶은 지역</label>
+        <div className="region-input-wrap">
+          <input
+            id="region"
+            name="region-search"
+            autoComplete="one-time-code"
+            value={region}
+            onChange={(e) => setRegion(e.target.value)}
+            onFocus={() => setShowRegionList(true)}
+            onBlur={() => setTimeout(() => setShowRegionList(false), 100)}
+            placeholder="예: 제주도, 부산 해운대"
+            required
+          />
+          <svg className="region-input-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
+        {showRegionList && (
+          <ul className="region-suggestions">
+            {POPULAR_REGIONS.map((r) => (
+              <li key={r}>
+                <button
+                  type="button"
+                  onMouseDown={(e) => e.preventDefault()}
+                  onClick={() => {
+                    setRegion(r)
+                    setShowRegionList(false)
+                  }}
+                >
+                  {r}
+                </button>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+
+      <div className="field">
+        <label htmlFor="date">출발 날짜</label>
+        <input
+          id="date"
+          type="date"
+          value={startDate}
+          min={min}
+          max={max}
+          onChange={(e) => {
+            const value = e.target.value
+            setStartDate(value)
+            setNights((prev) => {
+              const daysLeft = Math.round((new Date(max) - new Date(value)) / 86400000)
+              return Math.max(0, Math.min(prev, MAX_TRIP_NIGHTS, daysLeft))
+            })
+          }}
+          required
+        />
+      </div>
+
+      <div className="field">
+        <label htmlFor="nights">일정</label>
+        <select
+          id="nights"
+          value={nights}
+          onChange={(e) => setNights(Number(e.target.value))}
+        >
+          {Array.from({ length: maxNights + 1 }, (_, n) => (
+            <option key={n} value={n}>
+              {n === 0 ? '당일치기' : `${n}박 ${n + 1}일`}
+            </option>
+          ))}
+        </select>
+        <p className="hint">
+          {startDate ? (
+            <>
+              {startDate} ~ {endDate}
+              <br />
+              날씨 예보는 오늘부터 {MAX_FORECAST_DAYS}일 이내만 제공돼요.
+            </>
+          ) : (
+            `날씨 예보 특성상 오늘부터 ${MAX_FORECAST_DAYS}일 이내 날짜만 선택할 수 있어요.`
+          )}
+        </p>
+      </div>
+
+      <button type="submit" disabled={loading}>
+        {loading ? '추천 찾는 중…' : '추천 받기'}
+      </button>
+    </form>
+  )
+}
