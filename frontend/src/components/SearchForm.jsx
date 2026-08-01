@@ -89,6 +89,7 @@ export default function SearchForm({ onSubmit, loading }) {
         <input
           id="date"
           type="date"
+          className="date-input"
           value={startDate}
           min={min}
           max={max}
