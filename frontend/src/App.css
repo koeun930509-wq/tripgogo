@@ -370,8 +370,6 @@
   font-size: 16px;
   line-height: 1.5;
   text-align: left;
-  word-break: keep-all;
-  overflow-wrap: break-word;
 }
 
 .daily-forecast {
@@ -510,6 +508,18 @@
 
   .daily-forecast-item {
     border-left: none;
+  }
+
+  .daily-forecast-date {
+    font-size: 13px;
+  }
+
+  .daily-forecast-condition {
+    font-size: 14px;
+  }
+
+  .daily-forecast-temp {
+    font-size: 13px;
   }
 
   .weather-stats {
