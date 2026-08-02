@@ -423,7 +423,8 @@
   font-size: 14px;
   font-weight: 600;
   color: var(--text-h);
-  margin-top: 2px;
+  line-height: 130%;
+  margin-top: 8px;
 }
 
 .daily-forecast-temp {
