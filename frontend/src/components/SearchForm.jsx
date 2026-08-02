@@ -39,13 +39,20 @@ export default function SearchForm({ onSubmit, loading }) {
   const endDate = startDate ? addDays(startDate, nights) : ''
 
   function handleSubmit(e) {
-    e.preventDefault()
+    e?.preventDefault?.()
     if (!region.trim() || !startDate) return
     onSubmit({ region: region.trim(), date: startDate, endDate })
   }
 
+  function handleRegionKeyDown(e) {
+    if (e.key === 'Enter') {
+      e.preventDefault()
+      handleSubmit()
+    }
+  }
+
   return (
-    <form className="search-form" onSubmit={handleSubmit}>
+    <div className="search-form">
       <div className="field region-field">
         <label htmlFor="region">가고 싶은 지역</label>
         <div className="region-input-wrap">
@@ -57,6 +64,7 @@ export default function SearchForm({ onSubmit, loading }) {
             onChange={(e) => setRegion(e.target.value)}
             onFocus={() => setShowRegionList(true)}
             onBlur={() => setTimeout(() => setShowRegionList(false), 100)}
+            onKeyDown={handleRegionKeyDown}
             placeholder="예: 제주도, 부산 해운대"
             required
           />
@@ -131,9 +139,9 @@ export default function SearchForm({ onSubmit, loading }) {
         </p>
       </div>
 
-      <button type="submit" disabled={loading}>
+      <button type="button" disabled={loading} onClick={handleSubmit}>
         {loading ? '추천 찾는 중…' : '추천 받기'}
       </button>
-    </form>
+    </div>
   )
 }
