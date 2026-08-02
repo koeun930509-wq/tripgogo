@@ -15,11 +15,10 @@
   --pastel-lavender: rgba(255, 255, 255, 0.5);
   --pastel-mint: rgba(255, 255, 255, 0.5);
   --pastel-peach: rgba(255, 255, 255, 0.5);
-  --shadow:
-    rgba(60, 70, 110, 0.12) 0 10px 25px -5px, rgba(60, 70, 110, 0.07) 0 4px 6px -2px;
+  --shadow: rgba(60, 70, 110, 0.12) 0 10px 25px -5px, rgba(60, 70, 110, 0.07) 0 4px 6px -2px;
 
-  --sans: 'Pretendard', system-ui, 'Segoe UI', Roboto, sans-serif;
-  --heading: 'Pretendard', system-ui, 'Segoe UI', Roboto, sans-serif;
+  --sans: "Pretendard", system-ui, "Segoe UI", Roboto, sans-serif;
+  --heading: "Pretendard", system-ui, "Segoe UI", Roboto, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
 
   font: 18px/145% var(--sans);
@@ -55,8 +54,7 @@
     --pastel-lavender: rgba(255, 255, 255, 0.05);
     --pastel-mint: rgba(255, 255, 255, 0.05);
     --pastel-peach: rgba(255, 255, 255, 0.05);
-    --shadow:
-      rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
+    --shadow: rgba(0, 0, 0, 0.4) 0 10px 15px -3px, rgba(0, 0, 0, 0.25) 0 4px 6px -2px;
   }
 
   #social .button-icon {
@@ -80,12 +78,12 @@ body {
 }
 
 body::before {
-  content: '';
+  content: "";
   position: fixed;
   inset: 0;
   z-index: -1;
-  background: url('./assets/bg.png') center center / cover no-repeat;
-  opacity: 0.8;
+  background: url("./assets/bg.png") center center / cover no-repeat;
+  opacity: 0.4;
 }
 
 #root {
