@@ -486,7 +486,7 @@
   }
 
   .weather-main {
-    gap: 14px;
+    gap: 20px;
   }
 
   .weather-main-icon {
@@ -496,6 +496,7 @@
 
   .weather-temp {
     font-size: 36px;
+    margin-top: 4px;
   }
 
   .weather-condition {
