@@ -497,7 +497,7 @@
   .weather-temp {
     font-size: 36px;
     margin-top: 4px;
-    letter-spacing: -1px;
+    letter-spacing: -2px;
   }
 
   .weather-condition {
