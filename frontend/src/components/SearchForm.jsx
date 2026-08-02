@@ -48,7 +48,8 @@ export default function SearchForm({ onSubmit, loading }) {
   function handleRegionKeyDown(e) {
     if (e.key === 'Enter') {
       e.preventDefault()
-      handleSubmit()
+      setShowRegionList(false)
+      document.getElementById('date')?.focus()
     }
   }
 
