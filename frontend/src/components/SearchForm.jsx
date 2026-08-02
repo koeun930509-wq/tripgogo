@@ -22,6 +22,7 @@ export default function SearchForm({ onSubmit, loading }) {
   const [startDate, setStartDate] = useState('')
   const [nights, setNights] = useState(0)
   const [showRegionList, setShowRegionList] = useState(false)
+  const [regionReadOnly, setRegionReadOnly] = useState(true)
 
   const { min, max } = useMemo(() => {
     const today = new Date()
@@ -60,10 +61,19 @@ export default function SearchForm({ onSubmit, loading }) {
             id="region"
             name="trip-region"
             autoComplete="nope"
+            readOnly={regionReadOnly}
             value={region}
             onChange={(e) => setRegion(e.target.value)}
-            onFocus={() => setShowRegionList(true)}
-            onBlur={() => setTimeout(() => setShowRegionList(false), 100)}
+            onMouseDown={() => setRegionReadOnly(false)}
+            onFocus={(e) => {
+              setRegionReadOnly(false)
+              setShowRegionList(true)
+              e.target.readOnly = false
+            }}
+            onBlur={() => {
+              setRegionReadOnly(true)
+              setTimeout(() => setShowRegionList(false), 100)
+            }}
             onKeyDown={handleRegionKeyDown}
             placeholder="예: 제주도, 부산 해운대"
             required
