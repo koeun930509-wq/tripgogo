@@ -60,7 +60,14 @@ export default function SearchForm({ onSubmit, loading }) {
           <input
             id="region"
             name="trip-region"
-            autoComplete="nope"
+            type="search"
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck="false"
+            data-lpignore="true"
+            data-1p-ignore="true"
+            data-bwignore="true"
             readOnly={regionReadOnly}
             value={region}
             onChange={(e) => setRegion(e.target.value)}
