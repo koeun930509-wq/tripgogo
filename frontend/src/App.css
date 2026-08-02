@@ -282,8 +282,8 @@
 }
 
 .weather-main-icon {
-  width: 83.2px;
-  height: 83.2px;
+  width: 100px;
+  height: 100px;
   flex-shrink: 0;
 }
 
@@ -490,8 +490,8 @@
   }
 
   .weather-main-icon {
-    width: 60px;
-    height: 60px;
+    width: 74px;
+    height: 74px;
   }
 
   .weather-temp {
