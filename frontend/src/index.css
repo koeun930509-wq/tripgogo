@@ -71,12 +71,21 @@
 }
 
 body {
+  position: relative;
   margin: 0;
   overflow-x: hidden;
   word-break: keep-all;
   overflow-wrap: break-word;
-  background: url('./assets/bg.png') center center / cover no-repeat;
   min-height: 100svh;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: url('./assets/bg.png') center center / cover no-repeat;
+  opacity: 0.8;
 }
 
 #root {
