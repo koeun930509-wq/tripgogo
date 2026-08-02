@@ -95,6 +95,8 @@
 
 .date-input {
   position: relative;
+  appearance: none;
+  -webkit-appearance: none;
   padding-right: 36px;
 }
 
@@ -107,6 +109,8 @@
   padding: 0;
   opacity: 0;
   cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
 }
 
 .field input:focus-visible,
