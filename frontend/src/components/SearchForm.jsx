@@ -55,7 +55,7 @@ export default function SearchForm({ onSubmit, loading }) {
     <div className="search-form">
       <div className="field region-field">
         <label htmlFor="region">가고 싶은 지역</label>
-        <div className="region-input-wrap">
+        <div className="input-arrow-wrap">
           <input
             id="region"
             name="trip-region"
@@ -68,7 +68,7 @@ export default function SearchForm({ onSubmit, loading }) {
             placeholder="예: 제주도, 부산 해운대"
             required
           />
-          <svg className="region-input-arrow" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+          <svg className="field-arrow-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
             <path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
@@ -94,38 +94,48 @@ export default function SearchForm({ onSubmit, loading }) {
 
       <div className="field">
         <label htmlFor="date">출발 날짜</label>
-        <input
-          id="date"
-          type="date"
-          className="date-input"
-          value={startDate}
-          min={min}
-          max={max}
-          onChange={(e) => {
-            const value = e.target.value
-            setStartDate(value)
-            setNights((prev) => {
-              const daysLeft = Math.round((new Date(max) - new Date(value)) / 86400000)
-              return Math.max(0, Math.min(prev, MAX_TRIP_NIGHTS, daysLeft))
-            })
-          }}
-          required
-        />
+        <div className="input-arrow-wrap">
+          <input
+            id="date"
+            type="date"
+            className="date-input"
+            value={startDate}
+            min={min}
+            max={max}
+            onChange={(e) => {
+              const value = e.target.value
+              setStartDate(value)
+              setNights((prev) => {
+                const daysLeft = Math.round((new Date(max) - new Date(value)) / 86400000)
+                return Math.max(0, Math.min(prev, MAX_TRIP_NIGHTS, daysLeft))
+              })
+            }}
+            required
+          />
+          <svg className="field-arrow-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
       </div>
 
       <div className="field">
         <label htmlFor="nights">일정</label>
-        <select
-          id="nights"
-          value={nights}
-          onChange={(e) => setNights(Number(e.target.value))}
-        >
-          {Array.from({ length: maxNights + 1 }, (_, n) => (
-            <option key={n} value={n}>
-              {n === 0 ? '당일치기' : `${n}박 ${n + 1}일`}
-            </option>
-          ))}
-        </select>
+        <div className="input-arrow-wrap">
+          <select
+            id="nights"
+            value={nights}
+            onChange={(e) => setNights(Number(e.target.value))}
+          >
+            {Array.from({ length: maxNights + 1 }, (_, n) => (
+              <option key={n} value={n}>
+                {n === 0 ? '당일치기' : `${n}박 ${n + 1}일`}
+              </option>
+            ))}
+          </select>
+          <svg className="field-arrow-icon" viewBox="0 0 20 20" fill="none" aria-hidden="true">
+            <path d="M5 7.5 10 12.5 15 7.5" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </div>
         <p className="hint">
           {startDate ? (
             <>
