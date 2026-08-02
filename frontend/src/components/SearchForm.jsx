@@ -52,7 +52,7 @@ export default function SearchForm({ onSubmit, loading }) {
           <input
             id="region"
             name="region-search"
-            autoComplete="one-time-code"
+            autoComplete="off"
             value={region}
             onChange={(e) => setRegion(e.target.value)}
             onFocus={() => setShowRegionList(true)}
