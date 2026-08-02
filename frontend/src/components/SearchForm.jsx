@@ -51,8 +51,8 @@ export default function SearchForm({ onSubmit, loading }) {
         <div className="region-input-wrap">
           <input
             id="region"
-            name="region-search"
-            autoComplete="off"
+            name="trip-region"
+            autoComplete="nope"
             value={region}
             onChange={(e) => setRegion(e.target.value)}
             onFocus={() => setShowRegionList(true)}
