@@ -559,7 +559,10 @@
   }
 
   .weather-stat-value {
+    padding: 0 0 0 6px;
+    align-self: flex-start;
     font-size: 24px;
+    text-align: left;
   }
 }
 
