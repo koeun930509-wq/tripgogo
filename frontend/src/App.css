@@ -294,14 +294,14 @@
 }
 
 .weather-temp {
-  font-size: 39px;
+  font-size: 42px;
   font-weight: 700;
   color: var(--text-h);
 }
 
 .weather-condition {
-  margin-top: 8px;
-  font-size: 19.5px;
+  margin-top: 12px;
+  font-size: 20px;
   color: var(--text);
 }
 
@@ -400,7 +400,7 @@
 }
 
 .daily-forecast-date {
-  font-size: 13px;
+  font-size: 15px;
   color: var(--text);
 }
 
@@ -420,7 +420,7 @@
 }
 
 .daily-forecast-condition {
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--text-h);
   line-height: 130%;
@@ -434,7 +434,7 @@
   font-size: 13px;
   line-height: 1.3;
   color: var(--text);
-  margin-top: 2px;
+  margin-top: 6px;
 }
 
 .weather-card .hint {
@@ -472,6 +472,10 @@
     padding: 28px 20px;
   }
 
+  .weather-heading {
+    gap: 8px;
+  }
+
   .weather-region {
     font-size: 26px;
   }
@@ -496,7 +500,7 @@
 
   .weather-temp {
     font-size: 36px;
-    margin-top: 4px;
+    margin-top: 10px;
     letter-spacing: -2px;
   }
 
@@ -516,7 +520,7 @@
 
   .weather-summary {
     font-size: 16px;
-    line-height: 150%;
+    line-height: 170%;
   }
 
   .daily-forecast {
@@ -535,12 +539,27 @@
     width: 100%;
   }
 
+  .weather-stat-icon {
+    width: 30px;
+    height: 30px;
+  }
+
   .weather-stat {
     min-width: 0;
     align-items: center;
     text-align: center;
     padding-top: 28px;
     padding-bottom: 28px;
+  }
+
+  .weather-stat-label {
+    align-self: flex-start;
+    text-align: left;
+    font-size: 18px;
+  }
+
+  .weather-stat-value {
+    font-size: 24px;
   }
 }
 
